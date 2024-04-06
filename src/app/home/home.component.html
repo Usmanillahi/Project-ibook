@@ -1,0 +1,39 @@
+<div class="main-dashboard-wrapper">
+    <div class="projects-list">
+        <button class="buttons-class" (click)="updateTextData(selectedProject.id, selectedProjectData)">Save Data</button>
+        <button class="buttons-class" (click)="createProject()">Create Project</button>
+        <p>Projects</p>
+        <ul *ngIf="projects">
+          <li *ngFor="let project of projects" (click)="getProject(project.id)">
+            {{ project.name }}
+          </li>
+        </ul>
+        <button class="buttons-class" (click)="logout()">Logout</button>
+      </div>
+    <div class="editor">
+        <div *ngIf="selectedProject.id else nofile">
+            <p>Selected Project: {{selectedProject.name}}</p>
+            <quill-editor 
+            class="content-editor" 
+            [styles]="{'min-height': '120px', 'min-width':'200px'}" 
+            [placeholder]="'Enter your text here'"
+            (onFocus)="focus($event)" 
+            (onBlur)="blur($event)" 
+            (onEditorCreated)="created($event)"
+            (onSelectionChanged)="onSelectionChanged($event)"
+            [(ngModel)]="selectedProjectData"
+            > 
+            </quill-editor>
+
+        <div *ngIf="defintion" class="definition">
+            <h4>Definition of word " {{highlightedText}} " </h4>
+            {{defintion}}
+        </div>
+        </div>
+        <ng-template #nofile>
+            <div class="no-file-selected">
+                <p>Select Any Project to start editing</p>
+            </div>
+        </ng-template>
+    </div>    
+</div>
